@@ -11,8 +11,7 @@
         <div class="kothabajar_title">
             <a href="<?php echo $domain_name; ?>" style="text-decoration:none;display:block;
             padding: 8px 15px"><div style="font-size:35px;font-align=left;align:left;
-            text-decoration:none"><span style="color:#f00;">Kotha</span><span style="color:#000">Bajar</span>
-                <span style="color:#00f">.com</span></div>
+            text-decoration:none"><span style="color:#f00;">Kotha</span><span style="color:#000">Bajar</span><span style="color:#00f">.com</span></div>
             </a>
         </div>
         <div class="nav_menu" id="nav_menu">

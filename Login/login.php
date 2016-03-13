@@ -13,8 +13,8 @@
                 unset($_POST['login_username']);
                 unset($_POST['login_password']);
                 unset($_POST['login_submit']);
-                echo "<script>window.location.reload('http://localhost/KothaBajar');</script>";
-                printMessage("Logined Successfully with username :".$arr['Username']);
+                header('../');
+                //printMessage("Logined Successfully with username :".$arr['Username']);
             }
     }
  ?>

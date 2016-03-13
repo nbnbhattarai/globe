@@ -27,7 +27,12 @@ function alert($message){
                      'UserID'=>$userid,
                      'EmailAddress'=>$row['EmailAddress'],
                      'PhoneNumber'=>$row['PhoneNumber'],
-                     'Address'=>$row['Address']);
+                     'Address'=>$row['Address'],
+                     'District'=>$row['District'],
+                     'Active'=>$row['Active'],
+                     'CreateDate'=>$row['CreateDate'],
+                     'LastUpdate'=>$row['LastUpdate'],
+                 );
     }
 
     function getDistrictIndex($dname,$dnl){
@@ -40,7 +45,7 @@ function alert($message){
 
     function insertRoomDetainInDB($roominfo, $CONN){
 
-        $qry = "INSERT into kotha_info values ('',".
+        $qry = "INSERT into KothaInfo values ('',".
                 "'".$roominfo['Type']."',".
                 "'".$roominfo['Name']."',".
                 "'".$roominfo['Address']."',".
@@ -58,7 +63,7 @@ function alert($message){
                 "'".$roominfo['TransportationDistance']."',".
                 "'".$roominfo['Floor']."',".
                 "'".$roominfo['GharMuliId']."',".
-                "'".$roominfo['Discription']."','".time()."')";
+                "'".$roominfo['Discription']."','false','".time()."')";
         echo '<br/>'.$qry;
 
         $result = mysqli_query($CONN, $qry) or die(printMessage('Cannot post room information'));

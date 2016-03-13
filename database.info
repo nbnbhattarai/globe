@@ -1,7 +1,7 @@
 Database Name : 'kothabajar_db'
 Tables:
 -------
-1. create table kotha_info
+1. create table KothaInfo
 (
     ID int auto_increment not null,
     Type char(1) not null,
@@ -22,7 +22,9 @@ Tables:
     Floor tinyint unsigned not null,
     GharMuliId varchar(50) not null,
     Discription varchar(512) null,
-    Date_lm timestamp not null,
+    Taken BOOLEAN not null,
+    CreateDate DATETIME not null,
+    LastUpdate timestamp not null,
     primary key (ID)
 );
 
@@ -34,7 +36,40 @@ Tables:
     Username varchar(50) not null,
     EmailAddress varchar(100) not null,
     Password varchar(32) not null,
-    PhoneNumber varchar(20),
-    Address varchar(100),
+    PhoneNumber varchar(20) not null,
+    Address varchar(100) not null,
+    District tinyint not null,
+    Active BOOLEAN not null,
+    CreateDate DATETIME not null,
+    LastUpdate TIMESTAMP not null,
     primary key (ID)
+);
+
+// this database contains userid who applied for which room_info id
+3. create table Applications(
+    ApplicationID int auto_increment not null,
+    UserID int not null,
+    KothaID int not null,
+    Active BOOLEAN not null,
+    Taken BOOLEAN not null,
+    AppliedDate TIMESTAMP not null,
+    primary key (ApplicationID)
+);
+
+
+4. create table Notifications (
+    NotificationID int auto_increment not null,
+    UserID int not null,
+    NotificationText varchar(256),
+    Seen BOOLEAN not null,
+    primary key(NotificationID)
+);
+
+5. create table Comments (
+    CommentID int auto_increment not null,
+    UserID int not null,
+    KothaID int not null,
+    CommentText varchar(256) not null,
+    Hidden BOOLEAN not null,
+    primary key(CommentID)
 );
