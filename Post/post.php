@@ -1,5 +1,8 @@
 <?php
+    if(isset($_COOKIE['user'])){
     if(isset($_POST['room_type']) && isset($_POST['room_name']) && isset($_POST['room_address'])){
+
+
         $WaterBool = true;
         $RentNegotiableBool = true;
         $TypeChar = 'A';
@@ -72,10 +75,35 @@
 
         if(insertRoomDetainInDB($roominfo,$CONNECTION)){
             printMessage('Room info added to the database !, Thank you !');
+
+            // Image File upload
+            if(isset($_FILES['image'])){
+                $errors[] = '';
+                $filename = $_FILES['image']['name'];
+                $filesize = $_FILES['image']['size'];
+                $filetemp = $_FILES['image']['tmp_name'];
+                $filetype = $_FILES['image']['type'];
+                $file_ext = strlower(end(explode('.',$filename)));
+                $extensions = array('jpg','jpeg','png','bmp');
+
+                if(in_array($file_ext,$extensions) == false){
+                    $error[] = "extension ".$file_ext."not allowed, please select either jpeg,jpg,png or bmp image file !";
+                }
+
+                if(empty($errors) == true){
+                    move_uploaded_file($filetemp,$_SERVER['DOCUMENT_ROOT'].'/images/kotha_info_images/',getRoomId($roominfo));
+                }
+            }else{
+                printMessage("Please submit atleast one  Image of Room/Apartment/House which helps other to take decision !!");
+            }
+
         }else{
             printMessage('Room info cannot be added to the database !, Try Again Later !');
         }
     }
+}else{
+    printMessage("You have to be a user to submit information, so please login first ");
+}
  ?>
 
 <div style="text-align:center">
@@ -84,6 +112,10 @@
             <form method="post">
                 <center>
                 <table border="0px">
+                    <tr>
+                        <td>Picture</td>
+                        <td><input type="file" name="image" /></td>
+                    </tr>
                     <tr>
                         <td>Type</td>
                         <td>
@@ -120,7 +152,7 @@
                                 <option>No</option>
                             </select>
                         </td><td>Water Bill (Rs.)</td><td>
-                            <input type="text" name="water_bill" value="water bill per month" maxlength="20" />
+                            <input type="text" name="water_bill" value="water bill / month" maxlength="20" />
                         </td><td>(Black if no rent)</td>
                     </tr>
                     <tr>
@@ -130,7 +162,7 @@
                                 <option>No</option>
                             </select>
                         </td><td>Electricity Bill (Rs.)</td><td>
-                            <input type="text" name="electricity_bill" value="water bill per month" maxlength="20"/>
+                            <input type="text" name="electricity_bill" value="electricity bill / month" maxlength="20"/>
                         </td><td>(Black if no rent)</td>
                     </tr>
                     <tr>
@@ -140,7 +172,7 @@
                                 <option>No</option>
                             </select>
                         </td><td>Internet Bill (Rs.)</td><td>
-                            <input type="text" name="internet_bill" value="water bill per month" maxlength="20"/>
+                            <input type="text" name="internet_bill" value="internet bill / month" maxlength="20"/>
                         </td><td>(Black if no rent)</td>
                     </tr>
                     <tr>

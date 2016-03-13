@@ -24,6 +24,7 @@ function alert($message){
                      'LastName'=>$row['LastName'],
                      'FullName'=>$row['FirstName']." ".$row['MiddleName']." ".$row['LastName'],
                      'Username'=>$row['Username'],
+                     'UserID'=>$userid,
                      'EmailAddress'=>$row['EmailAddress'],
                      'PhoneNumber'=>$row['PhoneNumber'],
                      'Address'=>$row['Address']);

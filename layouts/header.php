@@ -1,5 +1,5 @@
 <?php
-    require_once "/srv/http/KothaBajar/include/global.php";
+    require_once $_SERVER['DOCUMENT_ROOT']."/KothaBajar"."/include/global.php";
  ?>
 <html>
 <head>
@@ -16,7 +16,7 @@
             </a>
         </div>
         <div class="nav_menu" id="nav_menu">
-            <ul>
+            <ul class="nav_list">
                 <li><a class="<?php if(strcmp($current_selected_page,'home_page'))
                         echo 'unselected_menu_item';
                     else
@@ -43,21 +43,27 @@
                     echo 'active';
                     ?>" href="<?php echo $domain_name.'/Contact/'; ?>">Contact</a></li>
                 <li style="float:right; padding-top:5px; ">
-                    <form class="main_menu_search_form" method="get">
-                        <input type="text" name="search" value="Search by location"/>
-                        <input type="button" value="search" text="search" calue="search" />
+                    <form <?php if(strcmp($current_selected_page,'finder_page') == 0) echo "style='display:none;'"; else echo "class='main_menu_search_form'"; ?> method="get"
+                        action="<?php echo $_SERVER['SERVER_NAME'].'/KothaBajar/Finder/'?>">
+                        <input type="text" name="location" value="Search by location"/>
+                        <input type="submit" value="search"/>
                     </form>
                 </li>
                 <?php
-                    if($_SESSION['logined'] == false){
-                        echo"
-                        <li style='float:right'>
-                        <a href='".$domain_name."/Login/'>Login</a>
-                        </li>";
+                if(isset($_COOKIE['user'])){
+                    $uinfo = getUserInfo($_COOKIE['user'],$CONNECTION);
+                    echo"
+                    <li>
+                    <a class='unselected_menu_item' href='".$domain_name."/Profile/?id=".$uinfo['UserID']."'>".$uinfo['Username']."</a>
+                        <ul>
+                            <li><a href='".$domain_name."/Profile/?id=".$uinfo['UserID']."'>Profile</a></li>
+                            <li><a href='".$domain_name."/?msg=logout'>Logout</a></li>
+                            </ul>
+                    </li>";
                     }else{
                         echo"
-                        <li class='unselected_menu_item'>
-                        <a href='".$domain_name."/Login/'>".$_SESSION['LoginUserName']."</a>
+                        <li>
+                        <a class='unselected_menu_item' href='".$domain_name."/Login/'>Login</a>
                         </li>";
                     }
                 ?>

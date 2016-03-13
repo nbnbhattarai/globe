@@ -1,10 +1,36 @@
 <?php
-    require_once '/srv/http/KothaBajar/include/database.php';
+    require_once $_SERVER['DOCUMENT_ROOT']."/KothaBajar"."/include/database.php";
+    $err_arr = array();
     if(isset($_POST['user_username'])){
-        if(strcmp($_POST['user_email'],' ') == 0 ){
-            printMessage('Email Address is Necessery');
-            die('');
-        }
+        if(strcmp($_POST['user_username'], ' ') == 0)
+            $err_arr.append('Username is required');
+    }
+    if(isset($_POST['user_password'])){
+        if($_POST['user_password'] == ' ')
+            $err_arr.append('Password is required');
+    }
+    if(isset($_POST['user_firstname'])){
+        if($_POST['user_firstname'] == ' ')
+            $err_arr = array('FirstName is required');
+    }
+    if(isset($_POST['user_lastname'])){
+        if($_POST['user_lastname'] == ' ')
+            $err_arr = array('LastName is required');
+    }
+    if(isset($_POST['user_phonenumber'])){
+        if($_POST['user_phonenumber'] == ' ')
+            $err_arr = array('PhoneNumber is required');
+    }
+    if(isset($_POST['user_email'])){
+        if($_POST['user_email'] == ' ')
+            $err_arr = array('Email is required');
+    }
+    if(isset($_POST['user_address'])){
+        if($_POST['user_username'] == ' ')
+            $err_arr = array('Address is required');
+    }
+
+        // check whether the $username already exist in database or not
         function isValidUserToAdd ($username, $connection){
             $qry = "SELECT ID,Username from Users";
             $result = mysqli_query($connection,$qry) or die('Connection broken with database signup[isValidUserToAdd]');
@@ -17,6 +43,7 @@
             return true;
         }
 
+        // add user to database with array of user information $userinfo
         function addUser($userinfo, $connection){
 
             $qry = "INSERT into Users values ('','".$userinfo['FirstName']."','".
@@ -29,30 +56,40 @@
             return true;
         }
 
-        if(isValidUserToAdd($_POST['user_username'],$CONNECTION)){
-            $userinfo = array('Username'=>$_POST['user_username'],
-                            'Password'=>$_POST['user_password'],
-                            'FirstName'=>$_POST['user_firstname'],
-                            'MiddleName'=>$_POST['user_middlename'],
-                            'LastName'=>$_POST['user_lastname'],
-                            'Email'=>$_POST['user_email'],
-                            'Address'=>$_POST['user_address'],
-                            'PhoneNumber'=>$_POST['user_phonenumber']);
+        // is username is valid(doesn't exist in database) then add user
+        if(empty($err_arr) and isset($_POST['user_username'])){
+            if(isValidUserToAdd($_POST['user_username'],$CONNECTION)){
+                $userinfo = array('Username'=>$_POST['user_username'],
+                                'Password'=>$_POST['user_password'],
+                                'FirstName'=>$_POST['user_firstname'],
+                                'MiddleName'=>$_POST['user_middlename'],
+                                'LastName'=>$_POST['user_lastname'],
+                                'Email'=>$_POST['user_email'],
+                                'Address'=>$_POST['user_address'],
+                                'PhoneNumber'=>$_POST['user_phonenumber']);
 
-                if(addUser($userinfo, $CONNECTION)){
-                    printMessage('User added successfully !!');
-                }
-        }else{
-            printMessage('Username already exist, use another username!');
+                    if(addUser($userinfo, $CONNECTION)){
+                        printMessage('User added successfully !!');
+                    }
+            }else{
+                printMessage('UserName Already exist, choose another username !');
+            }
         }
-    }
+        if(!empty($err_arr)){
+            printMessage('Please provide all the information to signup, All the field are required !');
+        }
  ?>
+
 <div>
     <div class="signup_form">
         <p style="color:#246;">Signup Form</p>
         <form method="post">
             <center>
                 <table border="0px">
+                    <tr>
+                        <td>Profile Picture</td>
+                        <td><input type="file" name="user_profile_picture"/>
+                    </tr>
                     <tr>
                         <td>UserName</td><td><input type="text" name="user_username"
                            <?php if(isset($_POST['user_username'])) echo "value='".$_POST['user_username']."'"; ?> /></td>

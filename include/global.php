@@ -18,6 +18,6 @@
 
     $district_name_list = ['Achham', 'Arghakhachi', 'Arghakhachi', 'Baglung', 'Baitadi', 'Bajhang', 'Bajura', 'Banke', 'Bara', 'Bardiya', 'Bhaktpur', 'Bhojpur', 'Chitwan', 'Dadeldhura', 'Dailekh', 'Dang', 'DarchulaAchham', 'Dhading', 'Dhankura', 'Dhanusa', 'Dolakha', 'Dolpa', 'Doti', 'Gorkha', 'Gulmi', 'Humla', 'Ilam', 'Jajarkot', 'Jhapa', 'Jhumla', 'Kailali', 'Kalikot', 'Kanchanpur', 'Kapilvastu', 'Kaski', 'Kathmandu', 'Kotang', 'Lalitpur', 'Lamjhung', 'Mahottari', 'Makwanpur', 'Manang', 'Morang', 'Mugu', 'Mustang', 'Myagdi', 'Nawalparasi', 'Nuwakot', 'Okhaldhunga', 'Palpa', 'Panchthar', 'Parbat', 'Parsa', 'Pyuthan', 'Ramechhap', 'Rasuwa', 'Rautahar', 'Rolpa', 'Rukum', 'Rupandehi', 'Salyan', 'Sankhuwasabha', 'Saptari', 'Sarlahi', 'Sayangja', 'Sindhuli', 'Sindhupalchowk', 'Siraha', 'Solukhumbu', 'Sunsari', 'Surkhet', 'Tanahun', 'Taplejung', 'Terhathum', 'Udayapur'];
 
-    
+
 
  ?>

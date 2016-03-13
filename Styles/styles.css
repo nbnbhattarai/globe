@@ -10,6 +10,7 @@
     height: 50px;
     background-color: #0cd0f1;
 }
+
 .nav_menu{
     overflow: auto;
     background: #f3c009;
@@ -59,6 +60,16 @@
     text-decoration: none;
     background-color: #4caf50;
 }
+.nav_menu ul ul{
+    position: relative;
+    float: left;
+    left: -999;
+}
+
+.nav_menu li:hover ul{
+    left: 0;
+}
+
 .main_menu_search_form{
     float: right;
     padding-right: 30px;
