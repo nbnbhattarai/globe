@@ -66,12 +66,14 @@
             'InternetBill' => $_POST['internet_bill'],
             'TransportationDistance' => $_POST['transportation_distance'],
             'Floor' => $_POST['floor'],
-            'GharMuliId' => $_SESSION['LoginUserID'],
-            'Discription' => $_POST['other_info']
+            'GharMuliId' => $_COOKIE['user'],
+            'Discription' => $_POST['other_info'],
         );
+        /*
         echo "<pre>";
         print_r ($roominfo);
         echo "</pre>";
+        */
 
         if(insertRoomDetainInDB($roominfo,$CONNECTION)){
             printMessage('Room info added to the database !, Thank you !');
@@ -94,7 +96,7 @@
                     move_uploaded_file($filetemp,$_SERVER['DOCUMENT_ROOT'].'/images/kotha_info_images/',getRoomId($roominfo));
                 }
             }else{
-                printMessage("Please submit atleast one  Image of Room/Apartment/House which helps other to take decision !!");
+                printMessage("Please submit atleast one  Image of Room/Apartment/House which helps other to choose !!");
             }
 
         }else{
@@ -140,7 +142,7 @@
                                         echo "<option>".$district_name_list[$i]."</option>";
                                 ?>
                             </select>
-                            </select>
+                        </td>
                     </tr>
                     <tr>
                         <td>House Number</td><td> <input type="text" name="gharnumber" maxlength="20"/></td>

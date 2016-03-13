@@ -32,7 +32,7 @@
 
         // check whether the $username already exist in database or not
         function isValidUserToAdd ($username, $connection){
-            $qry = "SELECT ID,Username from Users";
+            $qry = "SELECT UserID,Username from Users";
             $result = mysqli_query($connection,$qry) or die('Connection broken with database signup[isValidUserToAdd]');
 
             while($row = mysqli_fetch_array($result,MYSQLI_ASSOC)){
@@ -49,8 +49,9 @@
             $qry = "INSERT into Users values ('','".$userinfo['FirstName']."','".
             $userinfo['MiddleName']."','".$userinfo['LastName']."','".$userinfo['Username']."','".
             $userinfo['Email']."','".$userinfo['Password']."','".$userinfo['PhoneNumber']."','".
-            $userinfo['Address']."')";
+            $userinfo['Address']."','".$userinfo['District']."','1','".date('Y-n-j G:i:s',time())."','".date('Y-n-j G:i:s',time())."')";
 
+            echo $qry;
             mysqli_query($connection, $qry) or die('User cannot be added');
 
             return true;
@@ -66,7 +67,8 @@
                                 'LastName'=>$_POST['user_lastname'],
                                 'Email'=>$_POST['user_email'],
                                 'Address'=>$_POST['user_address'],
-                                'PhoneNumber'=>$_POST['user_phonenumber']);
+                                'PhoneNumber'=>$_POST['user_phonenumber'],
+                                'District'=>getDistrictIndex($_POST['user_district'],$district_name_list));
 
                     if(addUser($userinfo, $CONNECTION)){
                         printMessage('User added successfully !!');
@@ -116,6 +118,23 @@
                     <tr>
                         <td>Address</td><td><input type="text" name="user_address"
                             <?php if(isset($_POST['user_address'])) echo "value='".$_POST['user_address']."'"; ?> /></td>
+                            <td>
+                                <select name="user_district">
+                                    <option selected="selected">(choose one)</option>
+                                    <?php
+                                        for($i=0; $i < 75; $i++){
+                                            if(isset($_POST['user_district'])){
+                                                if($i == getDistrictIndex($_POST['user_district'],$district_name_list))
+                                                    echo "<option selected='selected'>".$district_name_list[$i]."</option>";
+                                                else
+                                                    echo "<option>".$district_name_list[$i]."</option>";
+                                            }
+                                            else
+                                                echo "<option>".$district_name_list[$i]."</option>";
+                                        }
+                                    ?>
+                                </select>
+                            </td>
                     </tr>
                     <tr>
                         <td></td><td><input type="submit" name="submit" value="Signup" /></td>

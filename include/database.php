@@ -21,7 +21,7 @@
     die('Cannot select database!!');
 
     function isValidUserToLogin ($username, $password,$CONN){
-            $qry = 'SELECT ID,Username, Password from Users';
+            $qry = 'SELECT UserID,Username, Password from Users';
             $result = mysqli_query($CONN,$qry) or die('hahaha');
 
             if(!$result){
@@ -31,7 +31,7 @@
             while ($row = mysqli_fetch_array($result,MYSQLI_ASSOC)){
                 if(strcmp($username,$row['Username']) == 0 and
                     strcmp($password,$row['Password']) == 0){
-                    return array('Username'=>$username, 'UserID'=>$row['ID']);
+                    return array('Username'=>$username, 'UserID'=>$row['UserID']);
                 }
             }
         return false;

@@ -16,8 +16,8 @@ function alert($message){
     }
 
     function getUserInfo($userid,$CONN){
-        $qry = "SELECT * from Users where ID='".$userid."'";
-        $result = mysqli_query($CONN,$qry);
+        $qry = "SELECT * from Users where UserID='".$userid."'";
+        $result = mysqli_query($CONN,$qry) or die('mysql query error..');
         $row = mysqli_fetch_array($result, MYSQLI_ASSOC);
         return array('FirstName'=>$row['FirstName'],
                      'MiddleName'=>$row['MiddleName'],
@@ -32,6 +32,35 @@ function alert($message){
                      'Active'=>$row['Active'],
                      'CreateDate'=>$row['CreateDate'],
                      'LastUpdate'=>$row['LastUpdate'],
+                 );
+    }
+    function getRoomInfo ($roomid, $CONN){
+        $qry = "SELECT * FROM KothaInfo where KothaID='".$roomid."'";
+        $result = mysqli_query($CONN, $qry) or die ('mysql query error...');
+        $row = mysqli_fetch_array($result, MYSQLI_ASSOC);
+
+        return array(
+                     'Type' => $row['Type'],
+                     'Name' => $row['Name'],
+                     'Address' => $row['Address'],
+                     'District' => $row['District'],
+                     'GharNumber' => $row['GharNumber'],
+                     'Rent' => $row['Rent'],
+                     'RentNegotiable' => $row['RentNegotiable'],
+                     'PhoneNumber' => $row['PhoneNumber'],
+                     'Water' => $row['Water'],
+                     'WaterBill' => $row['WaterBill'],
+                     'Electricity' => $row['Electricity'],
+                     'ElectricityBill' => $row['ElectricityBill'],
+                     'Internet' => $row['Internet'],
+                     'InternetBill' => $row['InternetBill'],
+                     'TransportationDistance' => $row['TransportationDistance'],
+                     'Floor' => $row['Floor'],
+                     'GharMuliId' => $row['GharMuliId'],
+                     'Discription' => $row['Discription'],
+                     'Taken' => $row['Taken'],
+                     'CreateDate' => $row['CreateDate'],
+                     'LastUpdate' => $row['LastUpdate']
                  );
     }
 
@@ -63,9 +92,8 @@ function alert($message){
                 "'".$roominfo['TransportationDistance']."',".
                 "'".$roominfo['Floor']."',".
                 "'".$roominfo['GharMuliId']."',".
-                "'".$roominfo['Discription']."','false','".time()."')";
-        echo '<br/>'.$qry;
-
+                "'".$roominfo['Discription']."','0','".date('Y-n-j G:i:s',time())."','".date('Y-n-j G:i:s',time())."')";
+        echo $qry;
         $result = mysqli_query($CONN, $qry) or die(printMessage('Cannot post room information'));
         return true;
     }

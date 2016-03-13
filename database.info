@@ -3,7 +3,7 @@ Tables:
 -------
 1. create table KothaInfo
 (
-    ID int auto_increment not null,
+    KothaID int auto_increment not null,
     Type char(1) not null,
     Name varchar (50) not null,
     Address varchar(100) not null,
@@ -16,7 +16,7 @@ Tables:
     WaterBill varchar(20) null,
     Electricity bool not null,
     ElectricityBill varchar(20) null,
-    Interner bool not null,
+    Internet bool not null,
     InternetBill varchar(20) null,
     TransportationDistance varchar(10) not null,
     Floor tinyint unsigned not null,
@@ -25,11 +25,11 @@ Tables:
     Taken BOOLEAN not null,
     CreateDate DATETIME not null,
     LastUpdate timestamp not null,
-    primary key (ID)
+    primary key (KothaID)
 );
 
 2. create table Users(
-    ID int auto_increment not null,
+    UserID int auto_increment not null,
     FirstName varchar(30) not null,
     MiddleName varchar(30) not null,
     LastName varchar(30) not null,
@@ -42,7 +42,7 @@ Tables:
     Active BOOLEAN not null,
     CreateDate DATETIME not null,
     LastUpdate TIMESTAMP not null,
-    primary key (ID)
+    primary key (UserID)
 );
 
 // this database contains userid who applied for which room_info id
