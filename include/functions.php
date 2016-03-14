@@ -122,7 +122,7 @@ function alert($message){
         //  House Room Apartment
         switch ($category) {
             case 0:
-                $categoryWhereText = "Type='*'";
+                $categoryWhereText = "(TRUE)";
                 break;
             case 1:
                 $categoryWhereText = "Type='A'";
@@ -155,7 +155,7 @@ function alert($message){
         $rentWhereText = "";
         switch ($rent_category) {
             case 0:
-                $rentWhereText = "rent='*'";
+                $rentWhereText = "(TRUE)";
                 break;
             case 1:
                 $rentWhereText = "rent<'".$rent_values[0]."'";

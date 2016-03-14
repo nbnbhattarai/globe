@@ -15,8 +15,8 @@
     }
  ?>
 
+ <center>
 <table>
-    <center>
         <tr>
             <td>Type</td>
             <td><?php switch ($roominfo['Type']) {
@@ -159,13 +159,13 @@
                 }
             }
          ?>
-    </center>
 </table>
+</center>
 
-    Owner information
-<table>
+    <h4 style="text-align:center"><u>Owner information</u></h4>
     <center>
-        <tr><td>Full Name</td><td><a href="<?php echo $_SERVER['SERVER_NAME'].'/KothaBajar/Profile/?id='.$roominfo['GharMuliId']; ?>"><?php echo $ownerinfo['FullName'] ?></a></td></tr>
+<table>
+        <tr><td>Full Name</td><td><a href="<?php echo "http://".$_SERVER['SERVER_NAME'].'/KothaBajar/Profile/?id='.$roominfo['GharMuliId']; ?>"><?php echo $ownerinfo['FullName'] ?></a></td></tr>
         <tr><td>UserName</td><td><?php echo $ownerinfo['Username'] ?></td></tr>
         <tr><td>Phone Number</td><td><?php echo $ownerinfo['PhoneNumber'] ?></td></tr>
         <tr><td>Email Address</td><td><?php echo $ownerinfo['EmailAddress'] ?></td></tr>
@@ -178,5 +178,5 @@
             echo "Error !!";
         }
          ?></td></tr>
-    </center>
 </table>
+</center>

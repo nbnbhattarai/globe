@@ -122,7 +122,7 @@
     <div class="finder_result">
         <table>
             <tr>
-                <td>SN</td><td>Type</td><td>Name</td><td>District</td><td>Rent</td><td>Submitted Date</td>
+                <td> SN </td><td> Type </td><td> Name </td><td> District </td><td> Rent(Rs.) </td><td> Submitted Date </td>
             </tr>
             <?php
                 if(isset($_GET['search']))
@@ -186,7 +186,7 @@
                             $typechar = array('A'=>'Apartment','H'=>'House','R'=>'Room','E'=>'Unspecified');
                                 echo "<td> ".$count_fr." </td>";
                                 echo "<td> ".$typechar[$room['Type']]." </td>";
-                                echo "<td> ".$room['Name']." </td>";
+                                echo "<td><a href='http://".$_SERVER['SERVER_NAME']."/KothaBajar/Info?id=".$room['KothaID']."'>".$room['Name']." </a></td>";
                                 echo "<td> ".$room['District']." </td>";
                                 echo "<td> ".$room['Rent']." </td>";
                                 echo "<td> ".$room['CreateDate']." </td>";
