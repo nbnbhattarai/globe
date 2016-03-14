@@ -13,6 +13,23 @@
         printMessage('Nothing To show');
         die();
     }
+
+    /**
+    Save Comment to database if its sent
+    **/
+
+
+
+    if(isset($_POST['submit_comment'])){
+        if(isset($_COOKIE['user'])){
+            $userid = $_COOKIE['user'];
+            $postid = $_GET['id'];
+            $commenttext = $_POST['CommentText'];
+            saveCommentInDatabase($userid,$postid,$commenttext,$CONNECTION);
+        }else{
+            printMessage("You have to login first to comment!");
+        }
+    }
  ?>
 
  <center>
@@ -180,3 +197,28 @@
          ?></td></tr>
 </table>
 </center>
+    <h4 style="text-align:center"><u>Comments</u></h4>
+    <center>
+        <table>
+            <?php
+                $all_comments = getComments($_GET['id'], $CONNECTION);
+                if($all_comments){
+                    foreach ($all_comments as $value) {
+                        $userinfo_c = getUserInfo($value['UserID'],$CONNECTION);
+                        echo "<tr>";
+                        echo "<td>".$userinfo_c['Username']."</td>";
+                        echo "<td>".$value['CommentDate']."</td>";
+                        echo "<td>".$value['CommentText']."</td>";
+                        echo "</tr>";
+                    }
+                }else{
+                    echo "<center>No Comments</center>";
+                }
+            ?>
+        </table>
+        <h4 style="text-align:center"><u>New Comment</u></h4>
+        <form method="post">
+            <textarea cols="40" row="30" name="CommentText"> </textarea>
+            <input type="submit" value="Comment" name="submit_comment" />
+        </form>
+    </center>

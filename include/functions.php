@@ -189,4 +189,25 @@ function alert($message){
             return false;
         }
     }
+
+    function getComments ($postid, $CONN){
+        $qry = "select * from Comments where KothaID='".$postid."'";
+        $result = mysqli_query($CONN,$qry) or die('Mysql qurey error !');
+        $num_rows = mysqli_num_rows ($result);
+        if($num_rows > 0){
+            while($row = mysqli_fetch_array($result, MYSQLI_ASSOC)){
+                $comments[] = $row;
+            }
+            return $comments;
+        }else {
+            return false;
+        }
+    }
+
+    function saveCommentInDatabase ($userid, $postid, $commenttext, $CONN){
+        $qry = "insert into Comments values('','".$userid."','".$postid."','".$commenttext."','0','".date('Y-n-j G:i:s',time())."');";
+        echo $qry;
+        $result = mysqli_query($CONN, $qry) or die("mysql query error on saving comment");
+        return true;
+    }
 ?>

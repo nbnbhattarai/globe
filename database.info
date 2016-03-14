@@ -62,6 +62,7 @@ Tables:
     UserID int not null,
     NotificationText varchar(256),
     Seen BOOLEAN not null,
+    NotificationDate TIMESTAMP not null,
     primary key(NotificationID)
 );
 
@@ -71,5 +72,6 @@ Tables:
     KothaID int not null,
     CommentText varchar(256) not null,
     Hidden BOOLEAN not null,
+    CommentDate TIMESTAMP not null,
     primary key(CommentID)
 );
