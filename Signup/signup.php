@@ -50,6 +50,7 @@
             $userinfo['MiddleName']."','".$userinfo['LastName']."','".$userinfo['Username']."','".
             $userinfo['Email']."','".$userinfo['Password']."','".$userinfo['PhoneNumber']."','".
             $userinfo['Address']."','".$userinfo['District']."','1','".date('Y-n-j G:i:s',time())."','".date('Y-n-j G:i:s',time())."')";
+j
 
             echo $qry;
             mysqli_query($connection, $qry) or die('User cannot be added');

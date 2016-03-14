@@ -5,6 +5,10 @@
     if(isset($_GET['id'])){
         $roominfo = getRoomInfo($_GET['id'],$CONNECTION);
         $ownerinfo = getUserInfo($roominfo['GharMuliId'],$CONNECTION);
+        if(!$roominfo){
+            printMessage('Database Doesnot exitst');
+            die();
+        }
     }else{
         printMessage('Nothing To show');
         die();

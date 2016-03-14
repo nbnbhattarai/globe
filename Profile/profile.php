@@ -11,8 +11,8 @@
 
 <div class="body_section">
 
+    <center>
     <table>
-        <center>
         <tr>
             <td>Profile Picture</td>
             <td><img src="<?php echo $site_root.'images/profile-pictures/'.$LoginUserID.'-pp.jpg';?>" alt="[profile_picture image]" class="profile_picture"/></td>
@@ -34,14 +34,60 @@
         <tr>
             <td>Address</td><td><?php echo $userinfo['Address']; ?></td>
         </tr>
-    </center>
     </table>
+</center>
     <form method="get">
         <input type="submit" value="Edit" />
     </form>
-    <table><center>
+<center>
+    <table>
         <tr>
         </tr>
-    </center></table>
+    </table>
+</center>
 
+</div>
+<center>
+    <div>Uploaded Rooms</div><br />
+    <center>
+    <?php
+        $rooms = getRoomsOfUser($_COOKIE['user'],$CONNECTION);
+        if($rooms != false){
+            $count = 1;
+            if(!empty($rooms)){
+                echo "<table><tr><td>SN</td><td>Type</td><td>Name</td><td>Submitted Date</td><td>Taken</td></tr>";
+            foreach ($rooms as $room) {
+                echo "<tr>";
+                    echo "<td>".$count."</td>";
+                    switch ($room['Type']) {
+                        case 'A':
+                            echo "<td>Apartment</td>";
+                            break;
+                        case 'H':
+                            echo "<td>House</td>";
+                            break;
+                        case 'R':
+                            echo "<td>Room</td>";
+                            break;
+                        default:
+                            echo "<td>Unspecified</td>";
+                            break;
+                    }
+
+                    echo "<td><a href='http://".$_SERVER['SERVER_NAME']."/KothaBajar/Info?id=".$room['KothaID']."'>".$room['Name']."</a></td>";
+                    echo "<td>".$room['CreateDate']."</td>";
+                    if($room['Taken'] == 1)
+                        echo "<td>YES</td>";
+                    else
+                        echo "<td>NO</td>";
+                echo "</tr>";
+                $count++;
+            }
+            if(!empty($rooms))
+                echo "</table>";
+            }
+        }
+     ?>
+</center>
+<div>
 </div>
