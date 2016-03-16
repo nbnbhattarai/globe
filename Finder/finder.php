@@ -1,5 +1,4 @@
 <div class="body_section">
-
     <!--Left site panel of search form -->
     <div class="finder_left_list">
         <form method="get" name="searchform">
@@ -187,7 +186,7 @@
                                 echo "<td> ".$count_fr." </td>";
                                 echo "<td> ".$typechar[$room['Type']]." </td>";
                                 echo "<td><a href='http://".$_SERVER['SERVER_NAME']."/KothaBajar/Info?id=".$room['KothaID']."'>".$room['Name']." </a></td>";
-                                echo "<td> ".$room['District']." </td>";
+                                echo "<td> ".$district_name_list[$room['District']]." </td>";
                                 echo "<td> ".$room['Rent']." </td>";
                                 echo "<td> ".$room['CreateDate']." </td>";
                             echo "</tr>";

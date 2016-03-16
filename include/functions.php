@@ -210,4 +210,34 @@ function alert($message){
         $result = mysqli_query($CONN, $qry) or die("mysql query error on saving comment");
         return true;
     }
+    /**
+    Funcitons for signup form
+    **/
+
+    // check whether the $username already exist in database or not
+    function isValidUserToAdd ($username, $connection){
+        $qry = "SELECT UserID,Username from Users";
+        $result = mysqli_query($connection,$qry) or die('Connection broken with database signup[isValidUserToAdd]');
+
+        while($row = mysqli_fetch_array($result,MYSQLI_ASSOC)){
+            if(strcmp($row['Username'],$username) == 0){
+                return false;
+            }
+        }
+        return true;
+    }
+
+    // add user to database with array of user information $userinfo
+    function addUser($userinfo, $connection){
+
+        $qry = "INSERT into Users values ('','".$userinfo['FirstName']."','".
+        $userinfo['MiddleName']."','".$userinfo['LastName']."','".$userinfo['Username']."','".
+        $userinfo['Email']."','".$userinfo['Password']."','".$userinfo['PhoneNumber']."','".
+        $userinfo['Address']."','".$userinfo['District']."','1','".date('Y-n-j G:i:s',time())."','".date('Y-n-j G:i:s',time())."');";
+
+        echo $qry;
+        mysqli_query($connection, $qry) or die('User cannot be added');
+
+        return true;
+    }
 ?>

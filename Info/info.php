@@ -30,6 +30,10 @@
             printMessage("You have to login first to comment!");
         }
     }
+
+    /**
+    If user applied for this post, create data in application table and mark it as in process post
+    **/
  ?>
 
  <center>
@@ -172,11 +176,18 @@
             if($roominfo['CreateDate'] != $roominfo['LastUpdate']){
                 $d =  date("d M, Y G:i:s",$roominfo['LastUpdate']);
                 if($d != false){
-                    echo "<tr><td>Last Updated</td><td>".$d." ?></td></tr>";
+                    echo "<tr><td>Last Updated</td><td>".$d."</td></tr>";
                 }
             }
          ?>
 </table>
+    <?php
+    if($_COOKIE['user'] != $ownerinfo['UserID']){
+    echo "<form name='apply_form' method='post'>
+            <input type='submit' name='apply_for_post' value='Apply' />
+            </form>";
+    }
+        ?>
 </center>
 
     <h4 style="text-align:center"><u>Owner information</u></h4>
