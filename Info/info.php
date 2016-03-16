@@ -25,9 +25,19 @@
             $userid = $_COOKIE['user'];
             $postid = $_GET['id'];
             $commenttext = $_POST['CommentText'];
-            saveCommentInDatabase($userid,$postid,$commenttext,$CONNECTION);
+            if(!empty($commenttext)){
+                saveCommentInDatabase($userid,$postid,$commenttext,$CONNECTION);
+            }
         }else{
             printMessage("You have to login first to comment!");
+        }
+    }
+
+    if(isset($_POST['submit_delete'])){
+        $postid = $_GET['id'];
+        if($_COOKIE['user'] == $postid){
+            if(deletePost($postid,$CONN))
+                echo "Post Deleted";
         }
     }
 
@@ -121,7 +131,7 @@
             if(strcmp($roominfo['ElectricityBill'],'') == 0){
                 echo "INCLUDED IN RENT";
             }else {
-                echo $roominfo['ElectricityBill'];
+                echo "Rs.".$roominfo['ElectricityBill']." /month";
             }
              ?></td>
         </tr>
@@ -139,7 +149,7 @@
             if(strcmp($roominfo['InternetBill'],'') == 0){
                 echo "INCLUDED IN RENT";
             }else {
-                echo $roominfo['InternetBill'];
+                echo "Rs.".$roominfo['InternetBill']." /month";
             }
              ?></td>
         </tr>
@@ -164,28 +174,33 @@
         <tr>
             <td>Submitted Date</td>
             <td><?php
-                $d =  date("d M, Y G:i:s",$roominfo['CreateDate']);
-                if($d != false){
-                    echo $d;
-                }else {
+                if($roominfo['CreateDate'] != false){
+                    echo $roominfo['CreateDate'];
+                }else{
                     echo "Error !!";
                 }
              ?></td>
         </tr>
         <?php
             if($roominfo['CreateDate'] != $roominfo['LastUpdate']){
-                $d =  date("d M, Y G:i:s",$roominfo['LastUpdate']);
-                if($d != false){
-                    echo "<tr><td>Last Updated</td><td>".$d."</td></tr>";
+                if($roominfo['LastUpdate'] != false){
+                    echo "<tr><td>Last Updated</td><td>".$roominfo['LastUpdate']."</td></tr>";
                 }
             }
          ?>
 </table>
     <?php
-    if($_COOKIE['user'] != $ownerinfo['UserID']){
-    echo "<form name='apply_form' method='post'>
-            <input type='submit' name='apply_for_post' value='Apply' />
-            </form>";
+    if(isset($_COOKIE['user'])){
+        if($_COOKIE['user'] != $ownerinfo['UserID'] and $roominfo['Taken'] == 0){
+        echo "<form name='apply_form' method='post'>
+                <input type='submit' name='apply_for_post' value='Apply' />
+                </form>";
+        }
+        else {
+        echo "<form method='post'>
+                <input type='submit' name='submit_delete' value='Delete' />
+                </form>";
+        }
     }
         ?>
 </center>
@@ -199,9 +214,8 @@
         <tr><td>Email Address</td><td><?php echo $ownerinfo['EmailAddress'] ?></td></tr>
         <tr><td>Address</td><td><?php echo $ownerinfo['Address'] ?></td></tr>
         <tr><td>User Since</td><td><?php
-        $d =  date("d M, Y G:i:s",$ownerinfo['CreateDate']);
-        if($d != false){
-            echo $d;
+        if($ownerinfo['CreateDate'] != false){
+            echo $ownerinfo['CreateDate'];
         }else {
             echo "Error !!";
         }
@@ -217,7 +231,7 @@
                     foreach ($all_comments as $value) {
                         $userinfo_c = getUserInfo($value['UserID'],$CONNECTION);
                         echo "<tr>";
-                        echo "<td>".$userinfo_c['Username']."</td>";
+                        echo "<td><a href='http://".$_SERVER['SERVER_NAME']."/KothaBajar/Profile/?id=".$userinfo_c['UserID']."'>".$userinfo_c['Username']."</a></td>";
                         echo "<td>".$value['CommentDate']."</td>";
                         echo "<td>".$value['CommentText']."</td>";
                         echo "</tr>";

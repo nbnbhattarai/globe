@@ -1,4 +1,9 @@
 <?php
+    if(isset($_COOKIE['user'])){
+        printMessage("Logout First to sign in.");
+        echo "<a text-align='center' style='text-align:center' href='".$_SERVER['SERVER_NAME']."KothaBajar/index.php?msg='logout'"."'>Logout</a>";
+        die();
+    }
     if (isset($_POST['login_username']) || isset($_POST['login_password'])){
             if(($arr = isValidUserToLogin($_POST['login_username'],$_POST['login_password'],$CONNECTION)) == false){
                 printMessage("Username and Password didn't matched. Try again !");

@@ -1,58 +1,116 @@
 <?php
     require_once $_SERVER['DOCUMENT_ROOT']."/KothaBajar"."/include/database.php";
-    $err_arr = array();
     if(isset($_POST['submit'])){
-        if(empty($_POST['user_username'])){
-            $err_arr['Username'] = 'Username is required';
-        }
-        if(empty($_POST['user_password'])){
-            $err_arr['Password'] = 'Password is required';
-        }
-        if(empty($_POST['user_firstname'])){
-            $err_arr['FirstName'] = 'FirstName is required';
-        }
-        if(empty($_POST['user_lastname'])){
-            $err_arr['LastName'] = 'LastName is required';
-        }
-        if(empty($_POST['user_phonenumber'])){
-            $err_arr['PhoneNumber'] = 'PhoneNumber is required';
-        }
-        if(empty($_POST['user_email'])){
-            $err_arr['Email'] = 'Email is required';
-        }
-        if(empty($_POST['user_address'])){
-            $err_arr['Address'] = 'Address Field is required';
+        $err_arr = array();
+            if(empty($_POST['user_username'])){
+                $err_arr['Username'] = 'Username is required';
+            }
+            if(empty($_POST['user_password'])){
+                $err_arr['Password'] = 'Password is required';
+            }
+            if(empty($_POST['user_firstname'])){
+                $err_arr['FirstName'] = 'FirstName is required';
+            }
+            if(empty($_POST['user_lastname'])){
+                $err_arr['LastName'] = 'LastName is required';
+            }
+            if(empty($_POST['user_phonenumber'])){
+                $err_arr['PhoneNumber'] = 'PhoneNumber is required';
+            }
+            if(empty($_POST['user_email'])){
+                $err_arr['Email'] = 'Email is required';
+            }
+            if(empty($_POST['user_address'])){
+                $err_arr['Address'] = 'Address Field is required';
+            }
+
+        // If no error (not filled required field! then add user)
+        if(empty($err_arr)){
+            //if user is valid to add (username isnot already taken) then add to database
+            if(isValidUserToAdd($_POST['user_username'],$CONNECTION)){
+                $userinfo = array('Username'=>$_POST['user_username'],
+                                'Password'=>$_POST['user_password'],
+                                'FirstName'=>$_POST['user_firstname'],
+                                'MiddleName'=>$_POST['user_middlename'],
+                                'LastName'=>$_POST['user_lastname'],
+                                'Email'=>$_POST['user_email'],
+                                'Address'=>$_POST['user_address'],
+                                'PhoneNumber'=>$_POST['user_phonenumber'],
+                                'District'=>getDistrictIndex($_POST['user_district'],$district_name_list));
+
+                    if(addUser($userinfo, $CONNECTION)){
+                        printMessage('User added successfully !!');
+                    }
+            }else{
+                printMessage('UserName Already exist, choose another username !');
+            }
+        }else{
+            printMessage('Please provide all the information to signup, All the field are required !');
         }
     }
 
-    // If no error (not filled required field! then add user)
-    if(empty($err_arr)){
-        //if user is valid to add (username isnot already taken) then add to database
-        if(isValidUserToAdd($_POST['user_username'],$CONNECTION)){
-            $userinfo = array('Username'=>$_POST['user_username'],
-                            'Password'=>$_POST['user_password'],
-                            'FirstName'=>$_POST['user_firstname'],
-                            'MiddleName'=>$_POST['user_middlename'],
-                            'LastName'=>$_POST['user_lastname'],
-                            'Email'=>$_POST['user_email'],
-                            'Address'=>$_POST['user_address'],
-                            'PhoneNumber'=>$_POST['user_phonenumber'],
-                            'District'=>getDistrictIndex($_POST['user_district'],$district_name_list));
+    if(isset($_POST['submit_edit'])){
+        $err_arr = array();
+            if(empty($_POST['user_firstname'])){
+                $err_arr['FirstName'] = 'FirstName is required';
+            }
+            if(empty($_POST['user_lastname'])){
+                $err_arr['LastName'] = 'LastName is required';
+            }
+            if(empty($_POST['user_phonenumber'])){
+                $err_arr['PhoneNumber'] = 'PhoneNumber is required';
+            }
+            if(empty($_POST['user_email'])){
+                $err_arr['Email'] = 'Email is required';
+            }
+            if(empty($_POST['user_address'])){
+                $err_arr['Address'] = 'Address Field is required';
+            }
 
-                if(addUser($userinfo, $CONNECTION)){
-                    printMessage('User added successfully !!');
+            if(empty($err_arr)){
+                $userinfo_update = array('UserID'=>$_COOKIE['user'],
+                                         'FirstName'=>$_POST['user_firstname'],
+                                         'MiddleName'=>$_POST['user_middlename'],
+                                         'LastName'=>$_POST['user_lastname'],
+                                         'Email'=>$_POST['user_email'],
+                                         'Address'=>$_POST['user_address'],
+                                         'PhoneNumber'=>$_POST['user_phonenumber'],
+                                         'District'=>getDistrictIndex($_POST['user_district'],$district_name_list));
+                if(updateUserInfo($userinfo_update, $CONNECTION)){
+                    printMessage("Information Updated !");
+                }else {
+                    printMessage("Cannot Update Information !");
                 }
-        }else{
-            printMessage('UserName Already exist, choose another username !');
+            }else{
+                printMessage("You have to provide all the Information required below");
+            }
+    }
+
+    if(isset($_GET['msg'])){
+        $userinfo_edit = getUserInfo($_COOKIE['user'],$CONNECTION);
+        if(!isset($_POST['submit_edit'])){
+            if(strcmp($_GET['msg'],'edit_profile') == 0){
+                $_POST['user_firstname'] = $userinfo_edit['FirstName'];
+                $_POST['user_lastname'] = $userinfo_edit['LastName'];
+                $_POST['user_middlename'] = $userinfo_edit['MiddleName'];
+                $_POST['user_phonenumber'] = $userinfo_edit['PhoneNumber'];
+                $_POST['user_email'] = $userinfo_edit['EmailAddress'];
+                $_POST['user_address'] = $userinfo_edit['Address'];
+                $_POST['user_district'] = $district_name_list[$userinfo_edit['District']];
+            }
         }
-    }else{
-        printMessage('Please provide all the information to signup, All the field are required !');
+
     }
  ?>
 
 <div>
     <div class="signup_form">
-        <p style="color:#246;">Signup Form</p>
+        <?php
+            if(isset($_GET['msg']))
+                echo "<p style='color:#246;'>Edit Profile</p>";
+            else
+                echo "<p style='color:#246;'>Signup Form</p>";
+        ?>
         <form method="post">
             <center>
                 <table border="0px">
@@ -64,20 +122,25 @@
                              ?></td>
                     </tr>
                     <tr>
-                        <td>UserName</td><td><input type="text" name="user_username"
-                           <?php if(isset($_POST['user_username'])) echo "value='".$_POST['user_username']."'"; ?> /></td>
-                        <td class="error_text"><?php
+                        <?php
+                        if(isset($_GET['msg'])){
+                            echo "<td>UserName </td><td>".$userinfo_edit['Username']."</td>";
+                        }else {
+                            echo "<td>UserName</td><td><input type='text' name='user_username' /></td>";
                             if(isset($err_arr['Username']))
                                 echo $err_arr['Username'];
-                         ?></td>
+                        }
+                         ?>
                     </tr>
-                    <tr>
-                        <td>Password</td><td><input type="password" name="user_password"/></td>
-                        <td class="error_text"><?php
+                    <?php
+                        if(!isset($_GET['msg'])){
+                            echo "<tr><td>Password</td><td><input type='password' name='user_password'/></td>";
+                            echo "<td class='error_text'>";
                             if(isset($err_arr['Password']))
                                 echo $err_arr['Password'];
-                         ?></td>
-                    </tr>
+                            echo "</td></tr>";
+                        }
+                    ?>
                     <tr>
                         <td>FullName</td><td><input type="text" name="user_firstname"
                             <?php if(isset($_POST['user_firstname'])) echo "value='".$_POST['user_firstname']."'"; ?> /></td>
@@ -137,7 +200,13 @@
                          ?></td>
                     </tr>
                     <tr>
-                        <td></td><td><input type="submit" name="submit" value="Signup" /></td>
+                        <td></td><td><input type="submit" <?php
+                            if(isset($_GET['msg']))
+                                    echo "name='submit_edit' value='Save'";
+                            else{
+                                echo "name='submit' value='Signup'";
+                            }
+                         ?>" /></td>
                     </tr>
                 </table>
             </center>

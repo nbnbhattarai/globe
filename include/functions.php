@@ -29,6 +29,7 @@ function alert($message){
                      'Username'=>$row['Username'],
                      'UserID'=>$userid,
                      'EmailAddress'=>$row['EmailAddress'],
+                     'Email'=>$row['EmailAddress'],
                      'PhoneNumber'=>$row['PhoneNumber'],
                      'Address'=>$row['Address'],
                      'District'=>$row['District'],
@@ -176,8 +177,8 @@ function alert($message){
         else
             $districtWhereText = "District='".getDistrictIndex($district_name,$dnl)."'";
 
-        $qry = "select KothaID,Type,Name,Rent,CreateDate,District from KothaInfo where ".$categoryWhereText." and ".$rentWhereText." and ".$districtWhereText." order by ".$ordering['order_by']." ".$ordering['order_asc_desc'].";";
-        echo $qry;
+        $qry = "select KothaID,Type,Name,Rent,CreateDate,District,Address from KothaInfo where ".$categoryWhereText." and ".$rentWhereText." and ".$districtWhereText." order by ".$ordering['order_by']." ".$ordering['order_asc_desc'].";";
+        //echo $qry;
         $result = mysqli_query($CONN,$qry) or die('Mysql query error .....');
         $num_result = mysqli_num_rows($result);
         if($num_result > 0){
@@ -238,6 +239,33 @@ function alert($message){
         echo $qry;
         mysqli_query($connection, $qry) or die('User cannot be added');
 
+        return true;
+    }
+
+    function updateUserInfo ($userinfo_update, $CONN){
+        $qry = "Update Users set FirstName='".$userinfo_update['FirstName']."',".
+                "MiddleName='".$userinfo_update['MiddleName']."',".
+                "LastName='".$userinfo_update['LastName']."',".
+                "EmailAddress='".$userinfo_update['Email']."',".
+                "PhoneNumber='".$userinfo_update['PhoneNumber']."',".
+                "Address='".$userinfo_update['Address']."',".
+                "District='".$userinfo_update['District']."' where UserID='".$userinfo_update['UserID']."';";
+        //echo $qry;
+        mysqli_query($CONN,$qry) or die("query error on update user info !!");
+        return true;
+    }
+
+    //delete post with given postid
+    function deletePost ($postid,$CONN){
+        $qry = "delete from KothaInfo where KothaID='".mysqli_escape_string($postid)."';";
+        $result = mysqli_query($CONN, $qry) or die('Post cannot be deleted');
+        return true;
+    }
+
+    function sendMail ($u, $CONN){
+        $qry = "insert into Emails values('','".$u['UserID']."','".$u['UserEmail']."','".$u['EmailText']."','".date('Y-n-j G:i:s',time())."');";
+
+        mysqli_query($CONN,$qry) or die("Mysql query error on send mail! ");
         return true;
     }
 ?>

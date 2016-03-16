@@ -7,6 +7,13 @@
             $uid = $_COOKIE['user'];
     }
     $userinfo = getUserInfo($uid,$CONNECTION);
+
+    if(isset($_GET['msg'])){
+        // if edit is sent through get, then edit profile
+        if(strcmp($_GET['msg'],'edit') == 0){
+
+        }
+    }
  ?>
 
 <div class="body_section">
@@ -34,11 +41,23 @@
         <tr>
             <td>Address</td><td><?php echo $userinfo['Address']; ?></td>
         </tr>
+        <tr>
+            <td>District</td><td><?php echo $district_name_list[$userinfo['District']]; ?></td>
+        </tr>
     </table>
 </center>
-    <form method="get">
-        <input type="submit" value="Edit" />
-    </form>
+    <?php
+    if($userinfo){
+        if($_COOKIE['user'] == $userinfo['UserID']){
+            /*
+        echo "<form method='get'>
+            <input type='submit' name='msg' value='edit' />
+        </form>";
+        */
+        echo "<a href='http://".$_SERVER['SERVER_NAME']."/KothaBajar/Signup/?msg=edit_profile'>Edit</a>";
+        }
+    }
+    ?>
 <center>
     <table>
         <tr>
@@ -48,7 +67,7 @@
 
 </div>
 <center>
-    <div>Uploaded Rooms</div><br />
+    <h4><u>Uploaded Rooms</u></h4><br />
     <center>
     <?php
         $rooms = getRoomsOfUser($_COOKIE['user'],$CONNECTION);
@@ -57,8 +76,11 @@
             if(!empty($rooms)){
                 echo "<table><tr><td>SN</td><td>Type</td><td>Name</td><td>Submitted Date</td><td>Taken</td></tr>";
             foreach ($rooms as $room) {
-                echo "<tr>";
+                    if($count%2 == 0)
+                        echo "<tr style='background-color:#891'>";
+
                     echo "<td>".$count."</td>";
+
                     switch ($room['Type']) {
                         case 'A':
                             echo "<td>Apartment</td>";
@@ -90,4 +112,5 @@
      ?>
 </center>
 <div>
+    <br />
 </div>

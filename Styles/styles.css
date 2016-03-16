@@ -60,9 +60,11 @@
     text-decoration: none;
     background-color: #4caf50;
 }
+
 .nav_menu ul ul{
     position: relative;
     float: left;
+
     left: -999;
 }
 
@@ -194,6 +196,12 @@
     margin: 0px;
 }
 
+.finder_result table{
+    width: 100%;
+    border: 1px;
+    border-color: green;
+    overflow: auto;
+}
 .error_text{
     color: red;
 }

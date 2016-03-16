@@ -120,8 +120,8 @@
 </form>
     <div class="finder_result">
         <table>
-            <tr>
-                <td> SN </td><td> Type </td><td> Name </td><td> District </td><td> Rent(Rs.) </td><td> Submitted Date </td>
+            <tr style="background-color:black;color:white;position:sticky">
+                <td> SN </td><td> Type </td><td> Name </td><td> Address </td> <td> District </td><td> Rent(Rs.) </td><td> Submitted Date </td>
             </tr>
             <?php
                 if(isset($_GET['search']))
@@ -176,16 +176,17 @@
                     $rooms = getSearchResult ($locationText, $category, $rent_category, $rent_values, $district_name, $ordering, $district_name_list, $CONNECTION);
                     if($rooms){
                         $count_fr = 1;
-                        foreach ($rooms as $room) {
+                        foreach ($rooms as $room){
                             if($count_fr%2 == 0)
                                 echo "<tr style='background-color:#fa0'>";
                             else
                                 echo "<tr style='background-color:#a0f'>";
 
                             $typechar = array('A'=>'Apartment','H'=>'House','R'=>'Room','E'=>'Unspecified');
-                                echo "<td> ".$count_fr." </td>";
+                                echo "<td style='text-align:center'> ".$count_fr." </td>";
                                 echo "<td> ".$typechar[$room['Type']]." </td>";
                                 echo "<td><a href='http://".$_SERVER['SERVER_NAME']."/KothaBajar/Info?id=".$room['KothaID']."'>".$room['Name']." </a></td>";
+                                echo "<td> ".$room['Address']."</td>";
                                 echo "<td> ".$district_name_list[$room['District']]." </td>";
                                 echo "<td> ".$room['Rent']." </td>";
                                 echo "<td> ".$room['CreateDate']." </td>";
@@ -193,7 +194,7 @@
                             $count_fr++;
                         }
                     }else{
-                        printMessage("No Result Found on these category!");
+                        echo "<tr><td>Result Not Found</td></tr>";
                     }
                 }
              ?>

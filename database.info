@@ -75,3 +75,12 @@ Tables:
     CommentDate TIMESTAMP not null,
     primary key(CommentID)
 );
+
+6. create table Emails (
+    EmailID int auto_increment not null,
+    UserID int not null,
+    UserEmail varchar(100),
+    EmailText varchar(256),
+    SentDate TIMESTAMP not null,
+    primary key(EmailID)
+);
