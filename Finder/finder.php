@@ -187,7 +187,10 @@
                                 echo "<td> ".$typechar[$room['Type']]." </td>";
                                 echo "<td><a href='http://".$_SERVER['SERVER_NAME']."/KothaBajar/Info?id=".$room['KothaID']."'>".$room['Name']." </a></td>";
                                 echo "<td> ".$room['Address']."</td>";
-                                echo "<td> ".$district_name_list[$room['District']]." </td>";
+                                if($room['District'] != -1)
+                                    echo "<td> ".$district_name_list[$room['District']]." </td>";
+                                else
+                                    echo "<td>Unspecified</td>";
                                 echo "<td> ".$room['Rent']." </td>";
                                 echo "<td> ".$room['CreateDate']." </td>";
                             echo "</tr>";
