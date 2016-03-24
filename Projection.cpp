@@ -11,7 +11,7 @@ void projection (ViewPort &viewPort, OBJ &object){
      std::vector<ZBufferElement> *zbuffer)*/
 
      //
-        float l = -0.7, r = 1.5, b = -2.6, t = -1;
+        float l = -400, r = 400, b = -300, t = 300;
      //
 
     Vector3<float> camera = viewPort.getCameraPosition();
@@ -57,13 +57,13 @@ void projection (ViewPort &viewPort, OBJ &object){
 
     Matrix vpMatrix;
     vpMatrix = projectionMatrix * vcs;
-    //Matrix viewingCoordinate (4,1);
+    Matrix viewingCoordinate (4,1);
     Matrix vertexMatrix(4,1);
     float h;
     for(std::vector<Vector3<float> >::iterator it = object.allVertices.begin(); it != object.allVertices.end(); ++it){
         vertexMatrix(0,0) = it->getX(); vertexMatrix(1,0) = it->getY(); vertexMatrix(2,0) = it->getZ();
         vertexMatrix(3,0) = 1;
-        //viewingCoordinate = vcs*vertexMatrix;
+        viewingCoordinate = vcs*vertexMatrix;
         //vpMatrix.print();
         //std::cout << "viewing matrix:" << std::endl;
         //viewingCoordinate.print();
@@ -77,10 +77,10 @@ void projection (ViewPort &viewPort, OBJ &object){
         Yp = vertexMatrix(1,0)/h;
 
         std::cout << "xp = " << Xp << " , yp = " << Yp << std::endl;
-        object.zBuffer.push_back(ZBufferElement(vcs(2,0), index++));
+        object.zBuffer.push_back(ZBufferElement(viewingCoordinate(2,0), index++));
 
-        Xp = (2*Xp-r-l)*(1.0/static_cast<float>(r-l));
-        Yp = (2*Yp-t-b)*(1.0/static_cast<float>(t-b));
+        //Xp = (2*Xp-r-l)*(1.0/static_cast<float>(r-l));
+        //Yp = (2*Yp-t-b)*(1.0/static_cast<float>(t-b));
 
         object.allNormalizedVertices.push_back(Vector2<float>(Xp, Yp));
     }

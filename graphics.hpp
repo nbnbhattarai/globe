@@ -68,11 +68,11 @@ class Vector2 {
     private:
         T x;
         T y;
-        Vector3<float> color;
+        Vector3<int> color;
         float intensity;
     public:
         Vector2 (){}
-        Vector2 (T x, int y, Vector3<float> color = Vector3<float>(255,255,255), float intensity=1){
+        Vector2 (T x, T y, Vector3<int> color = Vector3<int>(255,255,255), float intensity=1){
             this->x = x;
             this->y = y;
             this->color = color;
@@ -82,7 +82,7 @@ class Vector2 {
             this->x = x;
             this->y = y;
         }
-        void setColor (int color){
+        void setColor (Vector3<int> color){
             this->color = color;
         }
         void setIntensity (float intensity){
@@ -97,7 +97,7 @@ class Vector2 {
         }
         T getX (void){ return this->x; }
         T getY (void){ return this->y; }
-        Vector3<float> getColor (void){ return this->color; }
+        Vector3<int> getColor (void){ return this->color; }
         float getIntensity (void){ return intensity; }
         void operator = (Vector2<T> v){
             this->x = v.getX();

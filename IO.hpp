@@ -10,44 +10,53 @@
 #include "ViewPort.hpp"
 
 class OBJ;
+int max (int, int, int);
+int min (int, int, int);
+Vector2<int> max (Vector2<int>, Vector2<int>, Vector2<int>);
+Vector2<int> min (Vector2<int>, Vector2<int>, Vector2<int>);
 
 class Edge{
 private:
-    unsigned int index1, index2;
+    Vector2<int> vertexIndex;
 public:
     Edge (){}
-    Edge (unsigned int v1, unsigned int v2){
-        index1 = v1;
-        index2 = v2;
+    Edge (int v1, int v2){
+        vertexIndex.setCoordinate (v1,v2);
     }
 
-    void setIndex (unsigned int v1, unsigned int v2){
-        index1 = v1;
-        index2 = v2;
+    void setIndex (int v1, int v2){
+        vertexIndex.setCoordinate (v1, v2);
     }
 
-    int getIndex(int i){
-        if (i == 0){
-            return index1;
-        }else{
-            return index2;
-        }
+    Vector2<int> getIndex (void){
+        return vertexIndex;
     }
 };
 
 class Face{
 private:
-     Edge edges[3];
+    Vector3<Edge> edges;
 public:
+    Vector3<int> vertexIndex;
+    Vector3<int> normalIndex;
     Face (){}
-    Face (Edge e1, Edge e2, Edge e3){
-        edges[0] = e1;
-        edges[1] = e2;
-        edges[2] = e3;
+    Face (int a, int b, int c){
+        vertexIndex.setCoordinate (a,b,c);
+        edges.setCoordinate(Edge(a,b),
+                            Edge(b,c),
+                            Edge(c,a));
     }
 
-    void setEdge (int index, Edge e){
-        edges[index] = e;
+    Face (Edge e1, Edge e2, Edge e3){
+        edges.setCoordinate (e1, e2, e3);
+    }
+
+    void setEdge (Vector3<Edge> edges){
+        this->edges = edges;
+    }
+
+    void setNormalIndex (int a, int b, int c){
+        normalIndex.setCoordinate (a,b,c);
     }
 
     void draw (ViewPort *,OBJ *);

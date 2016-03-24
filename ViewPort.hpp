@@ -29,10 +29,10 @@ class ViewPort {
             for (int i = 0; i < (width * height); ++i)
                 zBuffer[i] = 54353523;
 
-            cameraPosition = Vector3<float>(25,50,15);
-            lookAtPoint = Vector3<float>(10,10,10);
+            cameraPosition = Vector3<float>(50,5,5);
+            lookAtPoint = Vector3<float>(0,0,0);
             v = Vector3<float>(0, 0, 35);
-            Zvp = 5;
+            Zvp = 10;
         }
         Vector3<float> getCameraPosition (void){
             return cameraPosition;
