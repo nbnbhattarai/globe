@@ -11,7 +11,7 @@ void projection (ViewPort &viewPort, OBJ &object){
      std::vector<ZBufferElement> *zbuffer)*/
 
      //
-        float l = 100, r = 150, t = 110, b = 160;
+        float l = -0.7, r = 1.5, b = -2.6, t = -1;
      //
 
     Vector3<float> camera = viewPort.getCameraPosition();
@@ -43,7 +43,8 @@ void projection (ViewPort &viewPort, OBJ &object){
     rotation(2,0) = unitN.getX(); rotation(2,1) = unitN.getY(); rotation(2,2) = unitN.getZ(); rotation(2,3) = 0;
     rotation(3,0) = 0; rotation(3,1) = 0; rotation(3,2) = 0; rotation(3,3) = 1;
 
-    float Zprp = camera.getZ(), Xprp = 0, Yprp = 0; // Xprp,Yprp = 0 -> projection reference point in Zv axis
+    float Zprp =  camera.getZ();
+    float Xprp = 0, Yprp = 0; // Xprp,Yprp = 0 -> projection reference point in Zv axis
     float dp = Zprp - Zvp;
     Matrix vcs;
     vcs = rotation * translation;
@@ -56,30 +57,30 @@ void projection (ViewPort &viewPort, OBJ &object){
 
     Matrix vpMatrix;
     vpMatrix = projectionMatrix * vcs;
-    Matrix viewingCoordinate (4,1);
+    //Matrix viewingCoordinate (4,1);
     Matrix vertexMatrix(4,1);
     float h;
     for(std::vector<Vector3<float> >::iterator it = object.allVertices.begin(); it != object.allVertices.end(); ++it){
         vertexMatrix(0,0) = it->getX(); vertexMatrix(1,0) = it->getY(); vertexMatrix(2,0) = it->getZ();
         vertexMatrix(3,0) = 1;
-        viewingCoordinate = vcs*vertexMatrix;
+        //viewingCoordinate = vcs*vertexMatrix;
         //vpMatrix.print();
         //std::cout << "viewing matrix:" << std::endl;
         //viewingCoordinate.print();
 
         vertexMatrix = vpMatrix * vertexMatrix;
-        std::cout << "vertex matrix:" << std::endl;
-        vertexMatrix.print();
+        //std::cout << "vertex matrix:" << std::endl;
+        //vertexMatrix.print();
 
-        h = viewingCoordinate(3,0);
+        h = vertexMatrix(3,0);
         Xp = vertexMatrix(0,0)/h;
         Yp = vertexMatrix(1,0)/h;
 
-        object.zBuffer.push_back(ZBufferElement(it->getZ(), index++));
+        std::cout << "xp = " << Xp << " , yp = " << Yp << std::endl;
+        object.zBuffer.push_back(ZBufferElement(vcs(2,0), index++));
 
         Xp = (2*Xp-r-l)*(1.0/static_cast<float>(r-l));
         Yp = (2*Yp-t-b)*(1.0/static_cast<float>(t-b));
-        //std::cout << "xp = " << Xp << " , yp = " << Yp << std::endl;
 
         object.allNormalizedVertices.push_back(Vector2<float>(Xp, Yp));
     }

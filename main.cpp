@@ -13,7 +13,7 @@ int main (void){
     OBJ object (infile);
     projection (viewPort, object);
     //printData (object.allVertices);
-    printData (object.allNormalizedVertices);
+    //printData (object.allNormalizedVertices);
     //printData (object.allNormals);
     while (window.isOpen()) {
         sf::Event event;
