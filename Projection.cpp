@@ -71,14 +71,14 @@ void projection (ViewPort &viewPort, OBJ &object){
         std::cout << "vertex matrix:" << std::endl;
         vertexMatrix.print();
 
-        h = viewingCoordinate(2,0);
+        h = viewingCoordinate(3,0);
         Xp = vertexMatrix(0,0)/h;
         Yp = vertexMatrix(1,0)/h;
 
         object.zBuffer.push_back(ZBufferElement(it->getZ(), index++));
 
-        //Xp = (2*Xp-r-l)*1/(r-l);
-        //Yp = (2*Yp-t-b)*1/(t-b);
+        Xp = (2*Xp-r-l)*(1.0/static_cast<float>(r-l));
+        Yp = (2*Yp-t-b)*(1.0/static_cast<float>(t-b));
         //std::cout << "xp = " << Xp << " , yp = " << Yp << std::endl;
 
         object.allNormalizedVertices.push_back(Vector2<float>(Xp, Yp));
