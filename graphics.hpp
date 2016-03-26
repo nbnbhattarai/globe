@@ -1,5 +1,6 @@
 #ifndef GRAPHICS_H
 #define GRAPHICS_H
+
 #include <SFML/Graphics.hpp>
 #include <vector>
 #include <iostream>
@@ -28,6 +29,17 @@ public:
         this->z = z;
     }
 
+    void xInc (T inc){
+        this->x += inc;
+    }
+
+    void yInc (T inc){
+        this->y += inc;
+    }
+
+    void zInc (T inc){
+        this->z += inc;
+    }
     void setColor (int color){
         this->color = color;
     }
@@ -56,10 +68,34 @@ public:
         return Vector3<T>(cx, cy, cz);
     }
 
+    float dotProduct (Vector3<T> v){
+        return (x*v.getX()+y*v.getY()+v.z*getZ());
+    }
+
+
+
     void operator = (Vector3<T> v){
         this->x = v.getX();
         this->y = v.getY();
         this->z = v.getZ();
+    }
+
+    void operator + (Vector3<T> v){
+        this->x += v.getX();
+        this->y += v.getY();
+        this->z += v.getZ();
+    }
+
+    void operator - (Vector3<T> v){
+        this->x -= v.getX();
+        this->y -= v.getY();
+        this->z -= v.getZ();
+    }
+
+    void multiplyBy (float x){
+        this->x *= x;
+        this->y *= y;
+        this->z *= z;
     }
 };
 
@@ -72,7 +108,7 @@ class Vector2 {
         float intensity;
     public:
         Vector2 (){}
-        Vector2 (T x, T y, Vector3<int> color = Vector3<int>(255,255,255), float intensity=1){
+        Vector2 (T x, T y, Vector3<int> color = Vector3<int>(0,0,200), float intensity=1){
             this->x = x;
             this->y = y;
             this->color = color;

@@ -6,8 +6,10 @@
 #include <cstring>
 #include <fstream>
 #include <cmath>
+#define pi 3.1415
 #include "graphics.hpp"
 #include "ViewPort.hpp"
+#include "matrix.hpp"
 
 class OBJ;
 int max (int, int, int);
@@ -59,7 +61,7 @@ public:
         normalIndex.setCoordinate (a,b,c);
     }
 
-    void draw (ViewPort *,OBJ *);
+    void draw (ViewPort *,OBJ *,bool=true);
 };
 
 class ZBufferElement {
@@ -90,7 +92,10 @@ class OBJ{
         }
         void loadObject (std::ifstream &ifile);
 
-        void draw (ViewPort *);
+        void draw (ViewPort *,bool = true);
+        void rotateX (float theta);
+        void rotateY (float theta);
+        void rotateZ (float theta);
 
         std::vector<Vector3<float> > getAllVertice ();
         std::vector<Vector3<float> > getAllNormals ();

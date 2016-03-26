@@ -3,6 +3,9 @@
 void ViewPort::pixelPlot (Vector2<int> v){
     sf::VertexArray va (sf::Points, 1);
     va[0].position = sf::Vector2f (v.getX()+this->topX, v.getY()+this->topY);
+    va[0].color = sf::Color (v.getColor().getX()*v.getIntensity(),
+                             v.getColor().getY()*v.getIntensity(),
+                             v.getColor().getZ()*v.getIntensity());
     window->draw (va);
 }
 
@@ -11,10 +14,18 @@ void ViewPort::removePixelPlot (Vector2<int> &v){
     vertex.color = sf::Color::Blue;
 }
 
-void ViewPort::drawLine (Vector2<float> v1, Vector2<float> v2){
+void ViewPort::lineClipping (Vector2<int> *v1, Vector2<int> *v2){
+    int xmin = 0, ymin = 0, xmax = this->width, ymax = this->height;
+}
+
+void ViewPort::drawLine (Vector2<int> v1, Vector2<int> v2){
     sf::VertexArray va(sf::Lines, 2);
-    Vector2<int> v1i = getActualCoordinate (v1);
-    Vector2<int> v2i = getActualCoordinate (v2);
+
+    //first clip the line and see what is outside of viewport
+    this->lineClipping (&v1, &v2);
+
+    //Vector2<int> v1i = getActualCoordinate (v1);
+    //Vector2<int> v2i = getActualCoordinate (v2);
     /*
     if (abs(v1i.getX()) > width)
         v1i.setX (width);
@@ -29,9 +40,9 @@ void ViewPort::drawLine (Vector2<float> v1, Vector2<float> v2){
     //std::cout << "vertex1: "; v1i.print();
     //std::cout << "vertex2: "; v2i.print();
 
-    va[0].position = sf::Vector2f(v1i.getX()+this->topX, v1i.getY()+this->topY);
+    va[0].position = sf::Vector2f(v1.getX()+this->topX, v1.getY()+this->topY);
     va[0].color = sf::Color(v1.getColor().getX(), v1.getColor().getY(), v1.getColor().getZ());
-    va[1].position = sf::Vector2f(v2i.getX()+this->topX, v2i.getY()+this->topY);
+    va[1].position = sf::Vector2f(v2.getX()+this->topX, v2.getY()+this->topY);
     va[1].color = sf::Color(v2.getColor().getX(), v2.getColor().getY(), v2.getColor().getZ());
     window->draw(va);
 

@@ -11,12 +11,12 @@ void projection (ViewPort &viewPort, OBJ &object){
      std::vector<ZBufferElement> *zbuffer)*/
 
      //
-        float l = -400, r = 400, b = -300, t = 300;
+        float l = -10, r = 11, b = -10, t = 15;
      //
 
-    Vector3<float> camera = viewPort.getCameraPosition();
+    Vector3<int> camera = viewPort.getCameraPosition();
     Vector3<float> lookAt =  viewPort.getLookAtPoint();
-    Vector3<float> v = viewPort.getV();
+    Vector3<float> v = viewPort.getViewUp();
 
     float Zvp = viewPort.getZvp();
 
@@ -43,7 +43,7 @@ void projection (ViewPort &viewPort, OBJ &object){
     rotation(2,0) = unitN.getX(); rotation(2,1) = unitN.getY(); rotation(2,2) = unitN.getZ(); rotation(2,3) = 0;
     rotation(3,0) = 0; rotation(3,1) = 0; rotation(3,2) = 0; rotation(3,3) = 1;
 
-    float Zprp =  camera.getZ();
+    float Zprp =  static_cast<float>(camera.getZ());
     float Xprp = 0, Yprp = 0; // Xprp,Yprp = 0 -> projection reference point in Zv axis
     float dp = Zprp - Zvp;
     Matrix vcs;
@@ -60,6 +60,7 @@ void projection (ViewPort &viewPort, OBJ &object){
     Matrix viewingCoordinate (4,1);
     Matrix vertexMatrix(4,1);
     float h;
+    object.allNormalizedVertices.erase (object.allNormalizedVertices.begin(),object.allNormalizedVertices.end());
     for(std::vector<Vector3<float> >::iterator it = object.allVertices.begin(); it != object.allVertices.end(); ++it){
         vertexMatrix(0,0) = it->getX(); vertexMatrix(1,0) = it->getY(); vertexMatrix(2,0) = it->getZ();
         vertexMatrix(3,0) = 1;
@@ -76,12 +77,12 @@ void projection (ViewPort &viewPort, OBJ &object){
         Xp = vertexMatrix(0,0)/h;
         Yp = vertexMatrix(1,0)/h;
 
-        std::cout << "xp = " << Xp << " , yp = " << Yp << std::endl;
         object.zBuffer.push_back(ZBufferElement(viewingCoordinate(2,0), index++));
 
-        //Xp = (2*Xp-r-l)*(1.0/static_cast<float>(r-l));
-        //Yp = (2*Yp-t-b)*(1.0/static_cast<float>(t-b));
+        Xp = (2*Xp-r-l)*(1.0/static_cast<float>(r-l));
+        Yp = (2*Yp-t-b)*(1.0/static_cast<float>(t-b));
 
+        //std::cout << "xp = " << Xp << " , yp = " << Yp << std::endl;
         object.allNormalizedVertices.push_back(Vector2<float>(Xp, Yp));
     }
 }

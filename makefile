@@ -13,7 +13,8 @@ OBJECTS = main.o graphics.o ViewPort.o IO.o Projection.o
 #########IO.o: IO.cpp IO.hpp
 #########	${CC} -c IO.cpp
 all:
-	${CC} ${SOURCES} -o ${EXEC} ${FLAGS}
+	@echo 'compiling...'
+	@${CC} ${SOURCES} -o ${EXEC} ${FLAGS}
 #
 ###all: main.o graphics.o ViewPort.o IO.o
 ###	g++ main.o IO.o graphics.o ViewPort.o -o ${EXEC} ${FLAGS}

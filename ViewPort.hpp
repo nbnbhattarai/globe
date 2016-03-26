@@ -11,9 +11,10 @@ class ViewPort {
         unsigned int height;
         unsigned int width;
         sf::RenderWindow *window;
-        Vector3<float> cameraPosition;
+        Vector3<int> cameraPosition;
         Vector3<float> lookAtPoint;
         Vector3<float> v; // view up vector
+        Vector3<float> lightSourcePosition;
         float Zvp;
         int color;
     public:
@@ -29,29 +30,61 @@ class ViewPort {
             for (int i = 0; i < (width * height); ++i)
                 zBuffer[i] = 54353523;
 
-            cameraPosition = Vector3<float>(50,5,5);
+            cameraPosition = Vector3<int>(5,5,5);
             lookAtPoint = Vector3<float>(0,0,0);
-            v = Vector3<float>(0, 0, 35);
-            Zvp = 10;
+            v = Vector3<float>(10, 20, 35);
+            Zvp = 25;
+            lightSourcePosition = Vector3<float>(30,30,30);
         }
-        Vector3<float> getCameraPosition (void){
+
+        void setLightSourcePosition (Vector3<float> pos){
+            lightSourcePosition = pos;
+        }
+
+        Vector3<float> getLightSourcePosition (void){
+            return lightSourcePosition;
+        }
+
+        Vector3<int> getCameraPosition (void){
             return cameraPosition;
         }
         Vector3<float> getLookAtPoint (void){
             return lookAtPoint;
         }
-        Vector3<float> getV (void){
+        Vector3<float> getViewUp (void){
             return v;
         }
+        void setZvp (float zvp){
+            this->Zvp = zvp;
+        }
+
+        void setViewUp (Vector3<float> v){
+            this->v = v;
+        }
+
+        void setLookAtPoint (Vector3<float> la){
+            this->lookAtPoint = la;
+        }
+
         float getZvp (void){
             return Zvp;
         }
 
+        void setCameraPosition (Vector3<int> pos){
+            cameraPosition.setCoordinate (pos.getX(), pos.getY(), pos.getZ());
+        }
+
+        //it plot pixel with Vector2 coordinate and it's properties
         void pixelPlot (Vector2<int> v);
         void removePixelPlot (Vector2<int> &v);
-        void drawLine (Vector2<float> v1, Vector2<float> v2);
+        
+        //it draws line when we give actual coordinate (nor normalized)
+        void drawLine (Vector2<int> v1, Vector2<int> v2);
 
+        //it returns actual (viewport) coordinate when we give it a normalized coordinate
         Vector2<int> getActualCoordinate (Vector2<float> normalc);
+
+        void lineClipping (Vector2<int> *, Vector2<int> *);
 
 };
 #endif
