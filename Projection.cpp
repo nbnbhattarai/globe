@@ -61,6 +61,7 @@ void projection (ViewPort &viewPort, OBJ &object){
     Matrix vertexMatrix(4,1);
     float h;
     object.allNormalizedVertices.erase (object.allNormalizedVertices.begin(),object.allNormalizedVertices.end());
+    object.zBuffer.erase (object.zBuffer.begin(), object.zBuffer.end());
     for(std::vector<Vector3<float> >::iterator it = object.allVertices.begin(); it != object.allVertices.end(); ++it){
         vertexMatrix(0,0) = it->getX(); vertexMatrix(1,0) = it->getY(); vertexMatrix(2,0) = it->getZ();
         vertexMatrix(3,0) = 1;

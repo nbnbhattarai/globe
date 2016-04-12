@@ -8,17 +8,24 @@ char objfilename[] = "globe_table.obj";
 
 Vector3<int> cameraPosition (28,19,-60);
 Vector3<float> lookAtPoint (0,0,0);
-Vector3<float> viewUp (-27,220,58);
-float Zvp =13;
+Vector3<float> viewUp (-26,245,58);
+float Zvp = -43;
 
 float firstRotateX = 40 * 5;
 float firstRotateY = 2 * 5;
 
 int main (int argc, char *argv[]){
-    if (argc <= 0){
-        std::cout << "Pass object file as argument to load object" << std::endl;
+    bool wireframe = true;
+    if (argc < 2){
+        std::cout << "Usage: ./main [name of obj file to load]" << std::endl;
         return -1;
+    }else{
+        for (int i = 1; i < argc; ++i){
+            if (strcmp (argv[i],"-s") == 0)
+                wireframe = false;
+        }
     }
+    strcpy (objfilename, argv[1]);
     sf::RenderWindow window (sf::VideoMode(1300,720), "main");
     sf::RectangleShape rectangle (sf::Vector2f(10,10));
     rectangle.setSize (sf::Vector2f(1300,700));
@@ -85,18 +92,18 @@ int main (int argc, char *argv[]){
                 }else if (event.key.code == sf::Keyboard::Comma){
                     lookAtPoint.zInc (-1);
                 }else if (event.key.code == sf::Keyboard::Numpad1){
-                    object.rotateX(5);
+                    object.rotateX(1);
                     printData (object.allVertices);
                 }else if (event.key.code == sf::Keyboard::Numpad2){
-                    object.rotateX(-5);
+                    object.rotateX(-1);
                 }else if (event.key.code == sf::Keyboard::Numpad3){
-                    object.rotateY(5);
+                    object.rotateY(1);
                 }else if (event.key.code == sf::Keyboard::Numpad4){
-                    object.rotateY(-5);
+                    object.rotateY(-1);
                 }else if (event.key.code == sf::Keyboard::Numpad5){
-                    object.rotateZ(5);
+                    object.rotateZ(1);
                 }else if (event.key.code == sf::Keyboard::Numpad6){
-                    object.rotateZ(-5);
+                    object.rotateZ(-1);
                 }
 
                 std::cout << "cameraPosition: (" << cameraPosition.getX()
@@ -122,7 +129,7 @@ int main (int argc, char *argv[]){
         projection (viewPort, object);
         window.clear (sf::Color::Black);
         window.draw(rectangle);
-        object.draw (&viewPort);
+        object.draw (&viewPort,wireframe);
         //viewPort.drawLine (Vector2<float>(-1,1), Vector2<float>(1,-1));
         window.display ();
     }

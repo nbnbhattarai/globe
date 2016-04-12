@@ -1,10 +1,5 @@
 #include "IO.hpp"
 
-/*
-void OBJ::interpreatEdgeIn (char *s){
-
-}
-*/
 
 float distance (Vector2<int> a, Vector2<int> b){
     return sqrt (((a.getX()-b.getX()) * (a.getX() - b.getX())) + ((a.getY()-b.getY()) * (a.getY()-b.getY())));
@@ -44,6 +39,7 @@ void OBJ::rotateY (float theta){
         }
 }
 
+
 void OBJ::rotateZ (float theta){
     Matrix transMatrix(4,4);
     Matrix vertexMatrix(4,1);
@@ -56,7 +52,7 @@ void OBJ::rotateZ (float theta){
 
     for(std::vector<Vector3<float> >::iterator it = allVertices.begin();
         it != allVertices.end(); ++it){
-            vertexMatrix(0,0) = it->getX(); vertexMatrix(1,0) = it->getY(); vertexMatrix(2,0) = it->getZ(); vertexMatrix(3,0) = 1;
+      vertexMatrix(0,0) = it->getX(); vertexMatrix(1,0) = it->getY(); vertexMatrix(2,0) = it->getZ(); vertexMatrix(3,0) = 1;
             vertexMatrix = transMatrix * vertexMatrix;
             it->setCoordinate (vertexMatrix(0,0), vertexMatrix(1,0), vertexMatrix(2,0));
         }
@@ -118,6 +114,9 @@ void OBJ::interpreatEdgeIn (std::string s, int *result){
 }
 
 void OBJ::loadObject (std::ifstream &ifile){
+    allNormals.erase (allNormals.begin(), allNormals.end());
+    allVertices.erase (allVertices.begin(), allVertices.end());
+    allFaces.erase (allFaces.begin(), allFaces.end());
     while (!ifile.eof()) {
         char s[100];
         float v[3];
@@ -160,7 +159,6 @@ void OBJ::loadObject (std::ifstream &ifile){
 
 // if wireframe is true, it draw wireframe, if not it draws solid object
 void Face::draw (ViewPort *vp, OBJ *obj,bool wireframe){
-
 // This code for wireframe design
     if (wireframe){
         Vector2<int> v1 = vp->getActualCoordinate(obj->allNormalizedVertices[vertexIndex.getX()]);
