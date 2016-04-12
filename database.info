@@ -1,0 +1,86 @@
+Database Name : 'kothabajar_db'
+Tables:
+-------
+1. create table KothaInfo
+(
+    KothaID int auto_increment not null,
+    Type char(1) not null,
+    Name varchar (50) not null,
+    Address varchar(100) not null,
+    District tinyint not null,
+    GharNumber varchar(20) not null,
+    Rent decimal(10,2) not null,
+    RentNegotiable bool not null,
+    PhoneNumber varchar(20) not null,
+    Water bool not null,
+    WaterBill varchar(20) null,
+    Electricity bool not null,
+    ElectricityBill varchar(20) null,
+    Internet bool not null,
+    InternetBill varchar(20) null,
+    TransportationDistance varchar(10) not null,
+    Floor tinyint unsigned not null,
+    GharMuliId varchar(50) not null,
+    Discription varchar(512) null,
+    Taken BOOLEAN not null,
+    CreateDate DATETIME not null,
+    LastUpdate timestamp not null,
+    primary key (KothaID)
+);
+
+2. create table Users(
+    UserID int auto_increment not null,
+    FirstName varchar(30) not null,
+    MiddleName varchar(30) not null,
+    LastName varchar(30) not null,
+    Username varchar(50) not null,
+    EmailAddress varchar(100) not null,
+    Password varchar(32) not null,
+    PhoneNumber varchar(20) not null,
+    Address varchar(100) not null,
+    District tinyint not null,
+    Active BOOLEAN not null,
+    CreateDate DATETIME not null,
+    LastUpdate TIMESTAMP not null,
+    primary key (UserID)
+);
+
+// this database contains userid who applied for which room_info id
+3. create table Applications(
+    ApplicationID int auto_increment not null,
+    UserID int not null,
+    KothaID int not null,
+    Active BOOLEAN not null,
+    Taken BOOLEAN not null,
+    AppliedDate TIMESTAMP not null,
+    primary key (ApplicationID)
+);
+
+
+4. create table Notifications (
+    NotificationID int auto_increment not null,
+    UserID int not null,
+    NotificationText varchar(256),
+    Seen BOOLEAN not null,
+    NotificationDate TIMESTAMP not null,
+    primary key(NotificationID)
+);
+
+5. create table Comments (
+    CommentID int auto_increment not null,
+    UserID int not null,
+    KothaID int not null,
+    CommentText varchar(256) not null,
+    Hidden BOOLEAN not null,
+    CommentDate TIMESTAMP not null,
+    primary key(CommentID)
+);
+
+6. create table Emails (
+    EmailID int auto_increment not null,
+    UserID int not null,
+    UserEmail varchar(100),
+    EmailText varchar(256),
+    SentDate TIMESTAMP not null,
+    primary key(EmailID)
+);
